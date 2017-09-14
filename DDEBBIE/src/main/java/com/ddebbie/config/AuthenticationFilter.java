@@ -39,6 +39,7 @@ public class AuthenticationFilter extends GenericFilterBean {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		try {
+			System.out.println("in do Filter");
 
 			Cookie cookie[] = ((HttpServletRequest) request).getCookies();
 			if (cookie != null && cookie.length > 0) {
@@ -53,7 +54,7 @@ public class AuthenticationFilter extends GenericFilterBean {
 				}
 
 			}
-
+			System.out.println("in do Filter end ");
 			chain.doFilter(request, response);
 		} catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
 			SecurityContextHolder.clearContext();

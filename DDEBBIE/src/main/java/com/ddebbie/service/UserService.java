@@ -32,13 +32,6 @@ public class UserService extends BaseService{
 	@Autowired
 	Utils utils;
 	
-	@Transactional
-	@RequestMapping(value="signupUser", method=RequestMethod.POST)
-	public GenericResponse signupUser(@RequestBody User user)throws BusinessException{
-		 final User registered = userHandler.registerNewUserAccount(user);
-		 return new GenericResponse("success");
-		
-	}
 	
 	@Transactional
 	@RequestMapping(value="changeUserPassword", method=RequestMethod.POST)

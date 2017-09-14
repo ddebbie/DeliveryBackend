@@ -28,6 +28,7 @@ public class SecurityConfiguration {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		System.out.println("configureGlobal");
 		auth.userDetailsService(userHandler);
 		auth.authenticationProvider(authProvider());
 	}
@@ -56,6 +57,7 @@ public class SecurityConfiguration {
 		MemCachedSessionSecurityContextRespository memCachedSessionSecurityContextRespository;
 
 		public void configure(WebSecurity web) throws Exception {
+			System.out.println("In Configure WebSecurity ..");
 			// This is here to ensure that the static content (JavaScript, CSS,
 			// etc)
 			// is accessible from the login page without authentication
@@ -67,9 +69,10 @@ public class SecurityConfiguration {
 		@Override
 		@Order(110)
 		protected void configure(HttpSecurity http) throws Exception {
+			System.out.println("In Configure ..");
 			 http
              .authorizeRequests()
-                 .antMatchers("/resources/**", "/registration").permitAll()
+                 .antMatchers("/resources/**", "/registration/signupUser").permitAll()
                  .anyRequest().authenticated()
                  .and()
              .formLogin()

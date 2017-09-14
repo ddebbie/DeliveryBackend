@@ -12,7 +12,8 @@ public class WebConfig {
 	public WebMvcConfigurerAdapter forwardToIndex() {
 		return new WebMvcConfigurerAdapter() {
 			@Override
-			public void addViewControllers(ViewControllerRegistry registry) {				
+			public void addViewControllers(ViewControllerRegistry registry) {	
+				System.out.println("addViewControllers");
 				//registry.addViewController("/").setViewName("forward:/wu/home");
 			}
 		};
