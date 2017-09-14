@@ -1,5 +1,6 @@
 package com.ddebbie.handler;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -81,8 +82,8 @@ public class UserHandler implements UserDetailsService {
 		User obj =null;
 		if(validate(user))
 		{
-			user.setCts(new java.sql.Timestamp(new Date().getTime()));
-			user.setMts(new java.sql.Timestamp(new Date().getTime()));
+			user.setCts(new Timestamp(new Date().getTime()));
+			user.setMts(new Timestamp(new Date().getTime()));
 			user.setActive(false);
 			user.setCreatorId(1248);
 			user.setModifierId(1248);
