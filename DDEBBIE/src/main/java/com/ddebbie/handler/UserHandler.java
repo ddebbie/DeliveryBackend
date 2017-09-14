@@ -2,6 +2,7 @@ package com.ddebbie.handler;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +81,11 @@ public class UserHandler implements UserDetailsService {
 		User obj =null;
 		if(validate(user))
 		{
+			user.setCts(new java.sql.Timestamp(new Date().getTime()));
+			user.setMts(new java.sql.Timestamp(new Date().getTime()));
+			user.setActive(false);
+			user.setCreatorId(1248);
+			user.setModifierId(1248);
 			obj = (User) userDAO.persist(user);
 		}
 		return obj;
