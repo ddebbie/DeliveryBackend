@@ -180,8 +180,9 @@ public class UserHandler implements UserDetailsService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public boolean registerUser(User user) throws BusinessException {
-		return false;
+	public User registerNewUserAccount(User user) throws BusinessException {
+		User obj = (User) userDAO.saveOrUpdate(user);
+		return obj;
 	}
 	
 	/**

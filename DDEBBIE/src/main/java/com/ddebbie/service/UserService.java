@@ -3,6 +3,7 @@ package com.ddebbie.service;
 
 import javax.transaction.Transactional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import com.ddebbie.handler.UserHandler;
 import com.ddebbie.model.Role;
 import com.ddebbie.model.User;
 import com.ddebbie.model.input.ChangeUserPassword;
+import com.ddebbie.service.common.GenericResponse;
 import com.ddebbie.utils.Utils;
 
 /**
@@ -32,8 +34,10 @@ public class UserService extends BaseService{
 	
 	@Transactional
 	@RequestMapping(value="signupUser", method=RequestMethod.POST)
-	public boolean signupUser(@RequestBody User user)throws BusinessException{
-		return userHandler.registerUser(user);
+	public GenericResponse signupUser(@RequestBody User user)throws BusinessException{
+		final User registered = userHandler.registerNewUserAccount(user);
+		 return new GenericResponse("success");
+		
 	}
 	
 	@Transactional
