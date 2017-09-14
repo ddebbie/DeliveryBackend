@@ -35,7 +35,7 @@ public class UserService extends BaseService{
 	@Transactional
 	@RequestMapping(value="signupUser", method=RequestMethod.POST)
 	public GenericResponse signupUser(@RequestBody User user)throws BusinessException{
-		final User registered = userHandler.registerNewUserAccount(user);
+		 final User registered = userHandler.registerNewUserAccount(user);
 		 return new GenericResponse("success");
 		
 	}

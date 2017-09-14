@@ -69,6 +69,21 @@ public class UserHandler implements UserDetailsService {
 
 	@Autowired
 	private Environment environment;
+	
+	
+	/**
+	 * @param user
+	 * @return
+	 * @throws BusinessException
+	 */
+	public User registerNewUserAccount(User user) throws BusinessException {
+		User obj =null;
+		if(validate(user))
+		{
+			obj = (User) userDAO.persist(user);
+		}
+		return obj;
+	}
 
 	
 	@Override
@@ -175,15 +190,7 @@ public class UserHandler implements UserDetailsService {
 	}
 
 	
-	/**
-	 * @param user
-	 * @return
-	 * @throws BusinessException
-	 */
-	public User registerNewUserAccount(User user) throws BusinessException {
-		User obj = (User) userDAO.saveOrUpdate(user);
-		return obj;
-	}
+	
 	
 	/**
 	 * @param currentPassword
