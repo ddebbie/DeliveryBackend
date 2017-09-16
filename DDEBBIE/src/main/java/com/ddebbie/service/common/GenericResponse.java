@@ -22,9 +22,13 @@ public class GenericResponse {
 
     public GenericResponse(List<ObjectError> allErrors, String error) {
         this.error = error;
-        this.message = allErrors.stream()
-            .map(e -> e.getDefaultMessage())
-            .collect(Collectors.joining(","));
+        StringBuffer a=new StringBuffer();
+        for( ObjectError e : allErrors)
+        {
+        	a.append(",");
+        	a.append( e.getDefaultMessage());
+        }
+        this.message = a.toString();
     }
 
     public String getMessage() {
