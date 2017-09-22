@@ -222,8 +222,11 @@ public class UserHandler implements UserDetailsService {
 			throw new BusinessException(ExceptionCodes.PASSWORD_RETYPEPASSWORD_MANDATORY,
 					ExceptionMessages.PASSWORD_RETYPEPASSWORD_MANDATORY);
 		}
-
-		User userAuthentication = utils.getLoggedInUser();
+		User userAuthentication=null;
+		if(changeUserPassword.getCookieToken()!=null && utils.isUserAuthenticated(changeUserPassword.getCookieToken().getToken()))
+		{
+			userAuthentication = (User) userDAO.getObjectById(changeUserPassword.getCookieToken().getUserId(), ObjectTypes.USER);
+		}
 
 		if (userAuthentication == null) {
 			throw new BusinessException(ExceptionCodes.USER_NOT_LOGGED_IN, ExceptionMessages.USER_NOT_LOGGED_IN);
@@ -240,7 +243,7 @@ public class UserHandler implements UserDetailsService {
 					ExceptionMessages.RETYPE_PASSWORD_NOT_MATCHING);
 		}
 
-		User user = userDAO.getUserByName(userAuthentication.getName().toString());
+		User user = userDAO.getUserByEmail(userAuthentication.getEmail().toString());
 		user.setPassword(changeUserPassword.getNewPassword());
 		boolean status = userDAO.update(user) == null ? false : true;
 		if (status) {
