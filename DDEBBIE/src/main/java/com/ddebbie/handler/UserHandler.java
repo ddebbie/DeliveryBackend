@@ -67,9 +67,7 @@ public class UserHandler implements UserDetailsService {
 
 	@Autowired
 	Utils utils;
-
 	
-
 	@Autowired
 	private Environment environment;
 	
@@ -128,7 +126,6 @@ public class UserHandler implements UserDetailsService {
 			
 
 			userAuthentication = new UserAuthentication(userByName, authorities);
-			System.out.println("Authentication Successful");
 		} else {
 			userAuthentication = new UserAuthentication();
 		}
@@ -353,8 +350,13 @@ public class UserHandler implements UserDetailsService {
 		}
 	}
 
-	public User getUserInfoForHeader() throws BusinessException {
-		long loggedInUserID = utils.getLoggedInUserId();
+	public User getUserInfoForHeader(CookieToken cookieToken) throws BusinessException {
+		boolean isUserAuthenticated=utils.isUserAuthenticated(cookieToken.getToken());
+		if(isUserAuthenticated)
+		{
+			
+		
+		long loggedInUserID = cookieToken.getUserId();
 		if (loggedInUserID > 0) {
 			User loggedInUser = (User) userDAO.getObjectById(loggedInUserID, ObjectTypes.USER);
 		/*	if (loggedInUser.getProfileImageFileId() > 0)
@@ -364,7 +366,11 @@ public class UserHandler implements UserDetailsService {
 		} else {
 			throw new BusinessException(ExceptionCodes.USER_NOT_FOUND, ExceptionMessages.USER_NOT_FOUND);
 		}
-
+		}
+		else
+		{
+			throw new BusinessException(ExceptionCodes.USER_NOT_LOGGED_IN, ExceptionMessages.USER_NOT_LOGGED_IN);
+		}
 	}
 
 	public Map<Long, User> userMap() {
@@ -541,7 +547,7 @@ public class UserHandler implements UserDetailsService {
 		return flag;
 
 	}
-
+	
 	public boolean logout(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 

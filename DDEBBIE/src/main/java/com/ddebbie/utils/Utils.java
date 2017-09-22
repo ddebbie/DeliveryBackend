@@ -18,6 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import com.ddebbie.cache.CacheManager;
+import com.ddebbie.cache.CacheRegionType;
 import com.ddebbie.dao.UserDAO;
 import com.ddebbie.model.User;
  
@@ -30,6 +32,10 @@ public final class Utils {
 	
 	@Autowired
 	UserDAO userDAO;
+	
+
+	@Autowired
+	CacheManager cacheManager;
 	
 	@Value("${runningEnvironment}") 
 	private String runningEnvironment;
@@ -149,6 +155,16 @@ public final class Utils {
         return user;
     }
     
+	public boolean isUserAuthenticated(String token)
+	{
+		System.out.println("checking for token authentication::"+token);
+		if(cacheManager.getCache(CacheRegionType.USER_SESSION_CACHE).getValue(token)!=null)
+		{
+			return true;
+		}
+			
+		return false;
+	}
     
     public String getMd5(String inputString)
     {

@@ -72,7 +72,8 @@ public class SecurityConfiguration {
 			System.out.println("In Configure ..");
 			 http
              .authorizeRequests()
-                 .antMatchers("/resources/**", "/registration/signupUser", "/registration/signupUserConfirm","/registration/signupVerifyCode","/user/login").permitAll()
+                 .antMatchers("/resources/**", "/registration/signupUser", "/registration/signupUserConfirm","/registration/signupVerifyCode",
+                		 "/user/login","/user/getUserInfoForHeader").permitAll()
                  .anyRequest().authenticated()
                  .and()
              .formLogin()

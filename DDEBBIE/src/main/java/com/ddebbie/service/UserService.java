@@ -1,10 +1,8 @@
 package com.ddebbie.service;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,65 +27,61 @@ import com.ddebbie.utils.Utils;
  */
 @RestController
 @RequestMapping("user")
-public class UserService extends BaseService{
+public class UserService extends BaseService {
 	@Autowired
 	UserHandler userHandler;
 	@Autowired
 	Utils utils;
-	
-	//Should return cookie token
+
+	// Should return cookie token
 	@Transactional
-	@RequestMapping(value="login", method=RequestMethod.POST)
-	public CookieToken userLogin(@RequestBody User user,HttpServletRequest request,HttpServletResponse response)throws BusinessException{
-		CookieToken cookieToken=null;
-		try {
-			System.out.println("In User Login :: "+user.getEmail() +" passowrd ::"+user.getPassword());
-			
-			cookieToken= userHandler.authenticate(user, request, response);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public CookieToken userLogin(@RequestBody User user, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		CookieToken cookieToken = null;
+		System.out.println("In User Login :: " + user.getEmail() + " passowrd ::" + user.getPassword());
+		cookieToken = userHandler.authenticate(user, request, response);
+
 		return cookieToken;
 	}
-	
 
 	@Transactional
-	@RequestMapping(value="changeUserPassword", method=RequestMethod.POST)
-	public boolean changeUserPassword(@RequestBody ChangeUserPassword changeUserPassword)throws BusinessException{
+	@RequestMapping(value = "changeUserPassword", method = RequestMethod.POST)
+	public boolean changeUserPassword(@RequestBody ChangeUserPassword changeUserPassword) throws BusinessException {
 		return userHandler.changeUserPassword(changeUserPassword);
 	}
 
 	@Transactional
-	@RequestMapping(value="getRole", method=RequestMethod.POST)
-	public Role getRole(@RequestParam(value = "id") long roleId) throws BusinessException{
+	@RequestMapping(value = "getRole", method = RequestMethod.POST)
+	public Role getRole(@RequestParam(value = "id") long roleId) throws BusinessException {
 		return userHandler.getRole(roleId);
 	}
+
 	@Transactional
-	@RequestMapping(value="getRoleByAdminType", method=RequestMethod.POST)
-	public Role getRoleByadminType(@RequestParam(value = "id") long roleId,@RequestParam(value = "adminType") int adminType) throws BusinessException{
-		return userHandler.getRoleByAdminType(roleId,adminType);
+	@RequestMapping(value = "getRoleByAdminType", method = RequestMethod.POST)
+	public Role getRoleByadminType(@RequestParam(value = "id") long roleId,
+			@RequestParam(value = "adminType") int adminType) throws BusinessException {
+		return userHandler.getRoleByAdminType(roleId, adminType);
 	}
-	
+
 	@Transactional
 	@RequestMapping(value = "isDuplicateUserName", method = RequestMethod.POST)
 	public boolean isDuplicateUserName(@RequestParam("userName") String userName) throws BusinessException {
-		return  userHandler.isDuplicateUserName(userName);
-		
+		return userHandler.isDuplicateUserName(userName);
+
 	}
-	
+
 	@Transactional
 	@RequestMapping(value = "isDuplicateUserEmail", method = RequestMethod.POST)
 	public boolean isDuplicateUserEmail(@RequestParam("email") String email) throws BusinessException {
-		return  userHandler.isDuplicateUserEmail(email);
-		
+		return userHandler.isDuplicateUserEmail(email);
+
 	}
-	
+
 	@Transactional
-	@RequestMapping(value="getUserInfoForHeader", method=RequestMethod.POST)
-	public User getUserInfoForHeader() throws BusinessException{
-		return userHandler.getUserInfoForHeader();
+	@RequestMapping(value = "getUserInfoForHeader", method = RequestMethod.POST)
+	public User getUserInfoForHeader(@RequestBody CookieToken cookieToken) throws BusinessException {
+		return userHandler.getUserInfoForHeader(cookieToken);
 	}
-     
- 	
+
 }

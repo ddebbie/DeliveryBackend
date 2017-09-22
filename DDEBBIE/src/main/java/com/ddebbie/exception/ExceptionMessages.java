@@ -93,4 +93,8 @@ public interface ExceptionMessages {
 	public static final String USER_EMAIL_EXISTS = "User email exists";
 	public static final String EMAIL_SERVICE_DISABLED = "Email service disabled";
 	public static final String USER_EMAIL_NOT_REGISTERED = "User email not registered";
+	
+	//Registration
+	public static final String VERIFICATION_CODE_INVALID="Invalid Code Entered";
+	
 }

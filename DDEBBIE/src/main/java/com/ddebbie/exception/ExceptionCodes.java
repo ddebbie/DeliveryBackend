@@ -52,6 +52,10 @@ public interface ExceptionCodes {
 	public static final int FILE_DOWNLOAD_FAILED = 3004;
 	public static final int FILE_MANDATORY = 3005;
 	// All Banner Exceptions-6000
+	
+	//Registration Verification Code
+	
+	public static final int VERIFICATION_CODE_INVALID=400;
 
 
 	/**
