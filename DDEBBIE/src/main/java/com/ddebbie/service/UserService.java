@@ -32,6 +32,7 @@ public class UserService extends BaseService{
 	@Autowired
 	Utils utils;
 	
+	//Should return cookie token
 	@Transactional
 	@RequestMapping(value="login", method=RequestMethod.POST)
 	public boolean userLogin(@RequestBody ChangeUserPassword changeUserPassword)throws BusinessException{
