@@ -1,6 +1,8 @@
 package com.ddebbie.service;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ddebbie.exception.BusinessException;
 import com.ddebbie.handler.UserHandler;
+import com.ddebbie.model.CookieToken;
 import com.ddebbie.model.Role;
 import com.ddebbie.model.User;
 import com.ddebbie.model.input.ChangeUserPassword;
@@ -35,8 +38,17 @@ public class UserService extends BaseService{
 	//Should return cookie token
 	@Transactional
 	@RequestMapping(value="login", method=RequestMethod.POST)
-	public boolean userLogin(@RequestBody ChangeUserPassword changeUserPassword)throws BusinessException{
-		return userHandler.changeUserPassword(changeUserPassword);
+	public CookieToken userLogin(@RequestBody User user,HttpServletRequest request,HttpServletResponse response)throws BusinessException{
+		CookieToken cookieToken=null;
+		try {
+			System.out.println("In User Login :: "+user.getEmail() +" passowrd ::"+user.getPassword());
+			
+			cookieToken= userHandler.authenticate(user, request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cookieToken;
 	}
 	
 

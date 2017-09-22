@@ -454,12 +454,12 @@ public class UserHandler implements UserDetailsService {
 		
 		System.out.println("authentication first step ::"+user.getPassword()+"--"+user.getEmail());
 		
-		System.out.println("authentication second text step ::"+user.getPassword()+"--"+user.getEmail());
+		
 
 		// Raju Nune Need to cross check user is already logged in and available
 		// in memcache
 
-		UserAuthentication ud = (UserAuthentication) loadUserByUsername(user.getName());
+		UserAuthentication ud = (UserAuthentication) loadUserByUsername(user.getEmail());
 		if (ud.getStatus() == User.STATUS_INACTIVE) {
 			throw new BusinessException(ExceptionCodes.ACCOUNT_INACTIVE, ExceptionMessages.ACCOUNT_INACTIVE);
 		}
