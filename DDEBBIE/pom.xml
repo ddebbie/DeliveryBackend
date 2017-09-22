@@ -52,6 +52,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		
+		
 		<!-- To re-deploy changes automatically -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -232,6 +239,7 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
+					<warName>ddebbiecourier</warName>
 				</configuration>
 			</plugin>
 		</plugins>

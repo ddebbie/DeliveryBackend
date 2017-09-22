@@ -23,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ddebbie.cache.CacheManager;
@@ -78,15 +79,18 @@ public class UserHandler implements UserDetailsService {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public User registerNewUserAccount(User user) throws BusinessException {
+	public User registerNewUserAccount(User user,String confirmToken,String verificationCode) throws BusinessException {
 		User obj =null;
-		if(validate(user))
+		if(validateEmailUser(user))
 		{
+			user.setPassword(encodeUserPassword(user.getPassword()));
 			user.setCts(new Timestamp(new Date().getTime()));
 			user.setMts(new Timestamp(new Date().getTime()));
 			user.setActive(false);
 			user.setCreatorId(1248);
 			user.setModifierId(1248);
+			user.setConfirmationToken(confirmToken);
+			user.setVerificationCode(verificationCode);
 			obj = (User) userDAO.persist(user);
 		}
 		return obj;
@@ -124,6 +128,7 @@ public class UserHandler implements UserDetailsService {
 			
 
 			userAuthentication = new UserAuthentication(userByName, authorities);
+			System.out.println("Authentication Successful");
 		} else {
 			userAuthentication = new UserAuthentication();
 		}
@@ -293,6 +298,11 @@ public class UserHandler implements UserDetailsService {
 	}
 
 	public boolean validateEmailUser(User user) throws BusinessException {
+		
+		if (StringUtils.isBlank(user.getName())) {
+			throw new BusinessException(ExceptionCodes.USER_NAME_MANDATORY, ExceptionMessages.USER_NAME_MANDATORY);
+		}
+		
 		if (StringUtils.isBlank(user.getEmail())) {
 			throw new BusinessException(ExceptionCodes.USER_EMAIL_MANDATORY, ExceptionMessages.USER_EMAIL_MANDATORY);
 		}
@@ -372,6 +382,14 @@ public class UserHandler implements UserDetailsService {
 	public User getUserByEmail(String email) {
 		return userDAO.getUserByEmail(email);
 	}
+	
+	public boolean findByConfirmationToken(String confirmationToken) {
+		return userDAO.findByConfirmationToken(confirmationToken);
+	}
+	
+	public boolean findByVerificationCode(String email,String verificationCode) {
+		return userDAO.findByVerificationCode(email,verificationCode);
+	}
 
 	public String[] getUsersEmails(Collection<Long> userIdList) {
 
@@ -433,6 +451,10 @@ public class UserHandler implements UserDetailsService {
 	public CookieToken authenticate(User user, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		UUID token = null;
+		
+		System.out.println("authentication first step ::"+user.getPassword()+"--"+user.getEmail());
+		
+		System.out.println("authentication second text step ::"+user.getPassword()+"--"+user.getEmail());
 
 		// Raju Nune Need to cross check user is already logged in and available
 		// in memcache
@@ -560,6 +582,11 @@ public class UserHandler implements UserDetailsService {
 		}
 		return role;
 	}
+	
+	public String encodeUserPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
+    }
 
 	
 }

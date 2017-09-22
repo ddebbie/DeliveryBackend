@@ -18,6 +18,8 @@ public class User extends AbstractObject {
 	public static final String LABEL_NAME = "name";
 	public static final String LABEL_PASSWORD = "password";
 	public static final String LABEL_PROFILE_IMAGE_FILE_ID = "profileImageFileId";
+	public static final String LABEL_SIGNUPTOKEN = "confirmationToken";
+	public static final String LABEL_VERIFICATIONCODE = "verificationCode";
 	
 	
 	public static final int STATUS_ACTIVE = 1;
@@ -44,7 +46,29 @@ public class User extends AbstractObject {
 	
 	@Column(name = "active")
 	private boolean active;
+	
+	@Column(name = "signuptoken")
+	private String confirmationToken;
+	
+	@Column(name = "verificationcode")
+	private String verificationCode;
+	
 
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+
+	public String getConfirmationToken() {
+		return confirmationToken;
+	}
+
+	public void setConfirmationToken(String confirmationToken) {
+		this.confirmationToken = confirmationToken;
+	}
 
 	public String getName() {
 		return name;

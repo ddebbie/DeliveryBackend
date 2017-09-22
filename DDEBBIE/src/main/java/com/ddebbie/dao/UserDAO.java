@@ -66,6 +66,13 @@ public interface UserDAO extends BaseDAO {
 	public int getTotalUser();
 	
 	public Paginator<User> getPaginatedUser(int pageNumber,int pageSize,long fromId,long toId);
+
+
+
+
+	public boolean findByConfirmationToken(String confirmationToken);
+	
+	public boolean findByVerificationCode(String email,String verificationCode);
 	
 	
 	

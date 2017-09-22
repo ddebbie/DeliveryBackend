@@ -32,6 +32,13 @@ public class UserService extends BaseService{
 	@Autowired
 	Utils utils;
 	
+	@Transactional
+	@RequestMapping(value="login", method=RequestMethod.POST)
+	public boolean userLogin(@RequestBody ChangeUserPassword changeUserPassword)throws BusinessException{
+		return userHandler.changeUserPassword(changeUserPassword);
+	}
+	
+	
 	
 	@Transactional
 	@RequestMapping(value="changeUserPassword", method=RequestMethod.POST)
