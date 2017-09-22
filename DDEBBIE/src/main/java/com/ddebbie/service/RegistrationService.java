@@ -102,7 +102,7 @@ public class RegistrationService extends BaseService {
 			registrationEmail.setText("To confirm your e-mail address, please enter the verification code:\n"
 					+ verificationCode);
 			registrationEmail.setFrom("ddebbiedelivery@gmail.com");
-
+			System.out.println("verificationCode:"+verificationCode);
 			emailService.sendEmail(registrationEmail);
 		}
 		return new GenericResponse("success");

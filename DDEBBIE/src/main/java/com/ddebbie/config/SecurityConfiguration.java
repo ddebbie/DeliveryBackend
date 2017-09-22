@@ -73,7 +73,7 @@ public class SecurityConfiguration {
 			 http
              .authorizeRequests()
                  .antMatchers("/resources/**", "/registration/signupUser", "/registration/signupUserConfirm","/registration/signupVerifyCode",
-                		 "/user/login","/user/getUserInfoForHeader").permitAll()
+                		 "/user/login","/user/*").permitAll()
                  .anyRequest().authenticated()
                  .and()
              .formLogin()
