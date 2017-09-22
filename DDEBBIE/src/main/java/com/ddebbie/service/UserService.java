@@ -38,8 +38,7 @@ public class UserService extends BaseService{
 		return userHandler.changeUserPassword(changeUserPassword);
 	}
 	
-	
-	
+
 	@Transactional
 	@RequestMapping(value="changeUserPassword", method=RequestMethod.POST)
 	public boolean changeUserPassword(@RequestBody ChangeUserPassword changeUserPassword)throws BusinessException{
