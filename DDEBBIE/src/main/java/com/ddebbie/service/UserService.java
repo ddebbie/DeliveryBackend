@@ -20,6 +20,7 @@ import com.ddebbie.model.Role;
 import com.ddebbie.model.User;
 import com.ddebbie.model.input.ChangeUserPassword;
 import com.ddebbie.service.common.GenericResponse;
+import com.ddebbie.service.descriptors.ResetPassword;
 import com.ddebbie.utils.Utils;
 
 /**
@@ -73,6 +74,13 @@ public class UserService extends BaseService {
 			throw  new BusinessException(ExceptionCodes.VERIFICATION_CODE_INVALID, ExceptionMessages.VERIFICATION_CODE_INVALID);	
 		}
 	}
+	
+	@Transactional
+	@RequestMapping(value = "reset-password-change", method = RequestMethod.POST)
+	public CookieToken resetPassword(@RequestBody ResetPassword resetPassword) throws BusinessException {
+		return userHandler.resetPassword(resetPassword);
+	}
+
 	
 
 	@Transactional

@@ -45,6 +45,7 @@ import com.ddebbie.model.input.ChangeUserPassword;
 import com.ddebbie.model.output.LoginType;
 import com.ddebbie.pagination.Paginator;
 import com.ddebbie.service.EmailService;
+import com.ddebbie.service.common.GenericResponse;
 import com.ddebbie.service.descriptors.ResetPassword;
 import com.ddebbie.utils.Constants;
 import com.ddebbie.utils.Utils;
@@ -169,7 +170,7 @@ public class UserHandler implements UserDetailsService {
 		return (User) userDAO.persist(user);
 	}
 
-	public LoginType resetPassword(ResetPassword resetPassword) throws BusinessException {
+	public CookieToken resetPassword(ResetPassword resetPassword) throws BusinessException {
 		LoginType loginType = new LoginType();
 		if (resetPassword.getNewPassword() == null || resetPassword.getNewPassword() == "") {
 			throw new BusinessException(ExceptionCodes.PASSWORD_NEWPASSWORD_MANDATORY,
@@ -183,7 +184,39 @@ public class UserHandler implements UserDetailsService {
 			throw new BusinessException(ExceptionCodes.RETYPE_PASSWORD_NOT_MATCHING,
 					ExceptionMessages.RETYPE_PASSWORD_NOT_MATCHING);
 		}
-		return loginType;
+		
+		//Verify if token and email match
+		
+		boolean tokenFlag=this.findByPasswordResetCode(resetPassword.getEmail(),resetPassword.getToken());
+		if(tokenFlag)
+		{
+			User user=userDAO.getUserByEmail(resetPassword.getEmail());
+			UserAuthentication ud = (UserAuthentication) loadUserByUsername(user.getEmail());
+			user.setPassword(encodeUserPassword(resetPassword.getNewPassword()));
+			boolean status = userDAO.update(user) == null ? false : true;
+			if (status) {
+				// Raju Nune Need to look into this changes -
+				// MemCachedSessionSecurityContextRespository : saveContext//
+				UUID token = UUID.randomUUID();
+				cacheManager.getCache(CacheRegionType.USER_SESSION_CACHE).put(token.toString(), ud);
+				SecurityContextHolder.getContext().setAuthentication(ud);
+				// memCachedSessionSecurityContextRespository.saveContext(SecurityContextHolder.getContext(),
+				// request, response);
+				// response.addCookie(new
+				// Cookie(Constants.OMICS_SESSION, token.toString()));
+				cacheManager.getCache(CacheRegionType.USER_SESSION_CACHE).put(token.toString(), ud);
+				if (token != null)
+					return new CookieToken(token.toString(), utils.getLoggedInUserId());
+
+			}
+			
+		}
+		else
+		{
+			throw  new BusinessException(ExceptionCodes.VERIFICATION_CODE_INVALID, ExceptionMessages.VERIFICATION_CODE_INVALID);	
+		}
+		
+		throw  new BusinessException(ExceptionCodes.UPDATE_FAILED, ExceptionMessages.UPDATE_FAILED);
 
 	}
 

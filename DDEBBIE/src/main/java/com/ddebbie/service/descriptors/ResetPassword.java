@@ -8,7 +8,14 @@ public class ResetPassword {
 
 	private String newPassword;
 	private String retypePassword;
-	private long userId;
+	private String email;
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	private String token;
 	
 	public String getToken() {
@@ -29,12 +36,7 @@ public class ResetPassword {
 	public void setRetypePassword(String retypePassword) {
 		this.retypePassword = retypePassword;
 	}
-	public long getUserId() {
-		return userId;
-	}
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+
 	
 	
 }
