@@ -37,8 +37,8 @@ public class UserService extends BaseService {
 
 	// Should return cookie token
 	@Transactional
-	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public CookieToken userLogin(@RequestBody User user, HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "login", method = RequestMethod.POST,consumes = {"application/x-www-form-urlencoded"})
+	public CookieToken userLogin( User user, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		CookieToken cookieToken = null;
 		System.out.println("In User Login :: " + user.getEmail() + " passowrd ::" + user.getPassword());
@@ -61,7 +61,7 @@ public class UserService extends BaseService {
 	}
 	
 	@Transactional
-	@RequestMapping(value = "resetVerifyCode", method = RequestMethod.GET)
+	@RequestMapping(value = "resetVerifyCode", method = RequestMethod.POST)
 	public GenericResponse resetVerifyCode(@RequestParam("email") String email,@RequestParam("token") String token) throws BusinessException {
 		boolean tokenFlag=userHandler.findByPasswordResetCode(email,token);
 		if(tokenFlag)
@@ -73,6 +73,7 @@ public class UserService extends BaseService {
 			throw  new BusinessException(ExceptionCodes.VERIFICATION_CODE_INVALID, ExceptionMessages.VERIFICATION_CODE_INVALID);	
 		}
 	}
+	
 
 	@Transactional
 	@RequestMapping(value = "getRole", method = RequestMethod.POST)

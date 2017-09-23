@@ -19,6 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,6 +44,7 @@ import com.ddebbie.model.UserAuthentication;
 import com.ddebbie.model.input.ChangeUserPassword;
 import com.ddebbie.model.output.LoginType;
 import com.ddebbie.pagination.Paginator;
+import com.ddebbie.service.EmailService;
 import com.ddebbie.service.descriptors.ResetPassword;
 import com.ddebbie.utils.Constants;
 import com.ddebbie.utils.Utils;
@@ -71,6 +73,9 @@ public class UserHandler implements UserDetailsService {
 	
 	@Autowired
 	private Environment environment;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	private static final int MAX_VERIFICATION_CODE = 100000;
 	 private static final int MIN_VERIFICATION_CODE = 999999;
@@ -488,9 +493,11 @@ public class UserHandler implements UserDetailsService {
 			throw new BusinessException(ExceptionCodes.USERNAME_OR_EMAIL_IS_INVALID,
 					ExceptionMessages.USERNAME_OR_EMAIL_IS_INVALID);
 		} else {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
 
+			System.out.println("Password in DataBase ::"+ud.getCredentials().toString() +" encoded password submitted ::"+encodeUserPassword(user.getPassword()));
 			if (ud.getCredentials() != null
-					&& !StringUtils.equals(ud.getCredentials().toString(), user.getPassword())) {
+					&& !encoder.matches( user.getPassword(),ud.getCredentials().toString())) {
 				throw new BusinessException(ExceptionCodes.PASSWORD_IS_INVALID, ExceptionMessages.PASSWORD_IS_INVALID);
 			} else {
 				if (!ud.getAuthorities().isEmpty()
@@ -620,6 +627,20 @@ public class UserHandler implements UserDetailsService {
 		         verificationCode=code.toString();
 		         user.setResetToken(verificationCode);
 		         save(user);
+		         
+
+					SimpleMailMessage resetPasswordEmail = new SimpleMailMessage();
+					resetPasswordEmail.setTo("arvapallishiva@gmail.com");
+					resetPasswordEmail.setCc("ddebbiedelivery@gmail.com");
+					
+					resetPasswordEmail.setSubject("Password Reset Request - Verification Code");
+					//String appUrl = request.getScheme() + "://" + request.getServerName()+":8080/DDEBBIECourityAPI-0.0.1-SNAPSHOT";
+
+					resetPasswordEmail.setText("To reset the password, please enter the verification code:\n"
+							+ verificationCode);
+					resetPasswordEmail.setFrom("ddebbiedelivery@gmail.com");
+					System.out.println("verificationCode:"+verificationCode);
+					emailService.sendEmail(resetPasswordEmail);
 			}
 			else
 			{

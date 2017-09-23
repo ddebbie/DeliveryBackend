@@ -160,6 +160,11 @@ public final class Utils {
 		System.out.println("checking for token authentication::"+token);
 		if(cacheManager.getCache(CacheRegionType.USER_SESSION_CACHE).getValue(token)!=null)
 		{
+			Authentication userAuthentication = (Authentication) (cacheManager.getCache(CacheRegionType.USER_SESSION_CACHE).getValue(token));
+			if(userAuthentication!=null)
+			{
+				System.out.println("User received  :: "+userAuthentication.getPrincipal().toString()+" :: "+userAuthentication.getName().toString());
+			}
 			return true;
 		}
 			
