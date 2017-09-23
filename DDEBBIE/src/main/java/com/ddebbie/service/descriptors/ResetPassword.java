@@ -9,6 +9,7 @@ public class ResetPassword {
 	private String newPassword;
 	private String retypePassword;
 	private String email;
+	private String token;
 	
 	public String getEmail() {
 		return email;
@@ -16,7 +17,7 @@ public class ResetPassword {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	private String token;
+	
 	
 	public String getToken() {
 		return token;
