@@ -223,5 +223,28 @@ public class UserDAOImpl extends AbstractDao implements UserDAO {
 		return true;
 		
 	}
+	
+	@Override
+	public boolean findByPasswordResetCode(String email,String verificationCode) {
+		Criteria criteria = createCustomCriteria(User.class);
+		criteria.add(Restrictions.and(
+				Restrictions.eq(User.LABEL_RESETTOKEN, verificationCode)));
+		criteria.add(Restrictions.and(
+				Restrictions.eq(User.LABEL_EMAIL, email)));
+		//criteria.setProjection(Projections.*(User.LABEL_SIGNUPTOKEN));
+		List list = criteria.list();
+		if (CollectionUtils.isEmpty(list))
+			return false;
+		else
+		{
+//			User usertoken=(User) list.get(0);
+//			usertoken.setMts(new Timestamp(new Date().getTime()));
+//			usertoken.setActive(true);
+//			usertoken.setModifierId(1248);
+//			usertoken = (User) this.persist(usertoken);
+		}
+		return true;
+		
+	}
 
 }

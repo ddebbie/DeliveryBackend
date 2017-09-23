@@ -20,6 +20,7 @@ public class User extends AbstractObject {
 	public static final String LABEL_PROFILE_IMAGE_FILE_ID = "profileImageFileId";
 	public static final String LABEL_SIGNUPTOKEN = "confirmationToken";
 	public static final String LABEL_VERIFICATIONCODE = "verificationCode";
+	public static final String LABEL_RESETTOKEN = "resetToken";
 	
 	
 	public static final int STATUS_ACTIVE = 1;
@@ -53,6 +54,16 @@ public class User extends AbstractObject {
 	@Column(name = "verificationcode")
 	private String verificationCode;
 	
+	@Column(name = "resettoken")
+	private String resetToken;
+
+	public String getResetToken() {
+		return resetToken;
+	}
+
+	public void setResetToken(String resetToken) {
+		this.resetToken = resetToken;
+	}
 
 	public String getVerificationCode() {
 		return verificationCode;

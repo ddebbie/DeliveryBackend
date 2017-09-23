@@ -73,6 +73,11 @@ public interface UserDAO extends BaseDAO {
 	public boolean findByConfirmationToken(String confirmationToken);
 	
 	public boolean findByVerificationCode(String email,String verificationCode);
+
+
+
+
+	boolean findByPasswordResetCode(String email, String verificationCode);
 	
 	
 	

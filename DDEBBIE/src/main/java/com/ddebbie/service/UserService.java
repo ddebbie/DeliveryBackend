@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ddebbie.exception.BusinessException;
+import com.ddebbie.exception.ExceptionCodes;
+import com.ddebbie.exception.ExceptionMessages;
 import com.ddebbie.handler.UserHandler;
 import com.ddebbie.model.CookieToken;
 import com.ddebbie.model.Role;
@@ -49,6 +51,27 @@ public class UserService extends BaseService {
 	@RequestMapping(value = "changeUserPassword", method = RequestMethod.POST)
 	public boolean changeUserPassword(@RequestBody ChangeUserPassword changeUserPassword) throws BusinessException {
 		return userHandler.changeUserPassword(changeUserPassword);
+	}
+	
+	@Transactional
+	@RequestMapping(value = "resetPasswordRequest", method = RequestMethod.POST)
+	public String resetPasswordRequest(@RequestParam("email") String email) throws BusinessException {
+		return userHandler.resetPasswordRequest(email);
+
+	}
+	
+	@Transactional
+	@RequestMapping(value = "resetVerifyCode", method = RequestMethod.GET)
+	public GenericResponse resetVerifyCode(@RequestParam("email") String email,@RequestParam("token") String token) throws BusinessException {
+		boolean tokenFlag=userHandler.findByPasswordResetCode(email,token);
+		if(tokenFlag)
+		{
+			return new GenericResponse("success");
+		}
+		else
+		{
+			throw  new BusinessException(ExceptionCodes.VERIFICATION_CODE_INVALID, ExceptionMessages.VERIFICATION_CODE_INVALID);	
+		}
 	}
 
 	@Transactional

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -70,6 +71,9 @@ public class UserHandler implements UserDetailsService {
 	
 	@Autowired
 	private Environment environment;
+	
+	private static final int MAX_VERIFICATION_CODE = 100000;
+	 private static final int MIN_VERIFICATION_CODE = 999999;
 	
 	
 	/**
@@ -399,6 +403,10 @@ public class UserHandler implements UserDetailsService {
 	public boolean findByVerificationCode(String email,String verificationCode) {
 		return userDAO.findByVerificationCode(email,verificationCode);
 	}
+	
+	public boolean findByPasswordResetCode(String email,String verificationCode) {
+		return userDAO.findByPasswordResetCode(email,verificationCode);
+	}
 
 	public String[] getUsersEmails(Collection<Long> userIdList) {
 
@@ -596,6 +604,32 @@ public class UserHandler implements UserDetailsService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
+
+
+	public String resetPasswordRequest(String email) throws BusinessException {
+		String verificationCode="";
+		if (email == null) {
+			throw new BusinessException(ExceptionCodes.USER_EMAIL_MANDATORY, ExceptionMessages.USER_EMAIL_MANDATORY);
+		} else {
+			User user = userDAO.getUserByEmail(email);
+			if(user!=null)
+			{
+				Random rand = new Random();
+		        Integer code = rand.nextInt(MIN_VERIFICATION_CODE
+		                - MAX_VERIFICATION_CODE + 1) + MAX_VERIFICATION_CODE;
+		         verificationCode=code.toString();
+		         user.setResetToken(verificationCode);
+		         save(user);
+			}
+			else
+			{
+				throw new BusinessException(ExceptionCodes.USER_NOT_FOUND, ExceptionMessages.USER_NOT_FOUND);
+			}
+		}
+		return verificationCode;
+	}
+
+
 
 	
 }
