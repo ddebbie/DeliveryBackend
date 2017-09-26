@@ -1,16 +1,33 @@
 package com.ddebbie.service;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.auth.PropertiesCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.ddebbie.exception.BusinessException;
 import com.ddebbie.exception.ExceptionCodes;
 import com.ddebbie.exception.ExceptionMessages;
@@ -35,6 +52,9 @@ public class UserService extends BaseService {
 	UserHandler userHandler;
 	@Autowired
 	Utils utils;
+	
+	 @Autowired
+	 private Environment environment;
 
 	// Should return cookie token
 	@Transactional
@@ -115,5 +135,40 @@ public class UserService extends BaseService {
 	public User getUserInfoForHeader(@RequestBody CookieToken cookieToken) throws BusinessException {
 		return userHandler.getUserInfoForHeader(cookieToken);
 	}
+	
+	
+	@RequestMapping(value = "profileupload", method = RequestMethod.POST)
+    public void handleFileUpload(@RequestParam("file") MultipartFile file) {
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
+        String fileName = formatter.format(Calendar.getInstance().getTime()) + "_thumbnail.jpg";
+      
+        if (!file.isEmpty()) {
+            try {
+            	String existingBucketName = "ddebbie";
+            	  String keyName = "mypic.JPG";
+            	  
+            	 
+            	  String amazonFileUploadLocationOriginal=existingBucketName+"/";
+            	  
+
+            	  AmazonS3 s3Client = new AmazonS3Client(new PropertiesCredentials(UserService.class.getResourceAsStream("AwsCredentials.properties")));
+            	  
+            	  //FileInputStream stream = new FileInputStream(filePath);
+            	  byte[] bytes = file.getBytes();
+
+                  ByteArrayInputStream imageInputStream = new ByteArrayInputStream(bytes);
+
+            	  ObjectMetadata objectMetadata = new ObjectMetadata();
+            	  PutObjectRequest putObjectRequest = new PutObjectRequest(amazonFileUploadLocationOriginal, keyName, imageInputStream, objectMetadata);
+            	  PutObjectResult result = s3Client.putObject(putObjectRequest);
+            	  System.out.println("Etag:" + result.getETag() + "-->" + result);
+
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+    }
 
 }
