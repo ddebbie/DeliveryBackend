@@ -3,6 +3,8 @@ package com.ddebbie.service;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,13 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
-
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -171,4 +175,14 @@ public class UserService extends BaseService {
         
     }
 
+	@RequestMapping(value="/user/profile-picture", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] profilePicture() throws IOException {
+        User u; //= userService.getLoggedInUser();
+        String profilePicture=""; //= userRoot + File.separator + u.getId() + File.separator + u.getProfilePicture();
+        if(new File(profilePicture).exists()) {
+            return IOUtils.toByteArray(new FileInputStream(profilePicture));
+        } else {
+            return null;
+        }
+    }
 }
