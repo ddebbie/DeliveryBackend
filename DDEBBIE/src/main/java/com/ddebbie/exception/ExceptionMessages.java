@@ -43,6 +43,7 @@ public interface ExceptionMessages {
 	public static final String FILE_TYPE_NOT_ALLOWED = "Invalid file type";
 
 	public static final String USER_NOT_FOUND = "User does not exist";
+	public static final String PROFILE_PIC_NOT_FOUND = "User Profile Pic does not exist";
 
 	public static final String FILE_DOES_NOT_EXIST = "File does not exist";
 	public static final String FILE_SIZE_EXCEEDED_MAXIMUM = "Uploaded file size has exceeded the limits. Please upload a file of smaller size";

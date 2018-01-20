@@ -105,6 +105,7 @@ public interface ExceptionCodes {
 	// Not found Exceptions-4100
 	public static final int USER_NOT_FOUND = 4100;
 	public static final int ROLE_NOT_FOUND = 4101;
+	public static final int PROFILE_PIC_NOT_FOUND = 4102;
 
 	// User Mandatory Exceptions-4200
 	public static final int USER_ID_MANDATORY = 4200;

@@ -36,16 +36,16 @@ import com.ddebbie.exception.BusinessException;
 import com.ddebbie.exception.ExceptionCodes;
 import com.ddebbie.exception.ExceptionMessages;
 import com.ddebbie.model.CookieToken;
-import com.ddebbie.model.File;
+
 import com.ddebbie.model.ObjectTypes;
 import com.ddebbie.model.Role;
+import com.ddebbie.model.UploadFile;
 import com.ddebbie.model.User;
 import com.ddebbie.model.UserAuthentication;
 import com.ddebbie.model.input.ChangeUserPassword;
 import com.ddebbie.model.output.LoginType;
 import com.ddebbie.pagination.Paginator;
 import com.ddebbie.service.EmailService;
-import com.ddebbie.service.common.GenericResponse;
 import com.ddebbie.service.descriptors.ResetPassword;
 import com.ddebbie.utils.Constants;
 import com.ddebbie.utils.Utils;
@@ -66,8 +66,7 @@ public class UserHandler implements UserDetailsService {
 	@Autowired
 	UserDAO userDAO;
 
-	@Autowired
-	FileHandler fileHandler;
+
 
 	@Autowired
 	Utils utils;
@@ -144,7 +143,7 @@ public class UserHandler implements UserDetailsService {
 
 	public Map<Long, User> getUserMap(Collection<Long> userIds) {
 		Map<Long, User> userMap = new HashMap<Long, User>();
-		Map<Long, File> profilePicMap = new HashMap<Long, File>();
+		Map<Long, UploadFile> profilePicMap = new HashMap<Long, UploadFile>();
 		if (CollectionUtils.isNotEmpty(userIds)) {
 			List<User> userList = userDAO.getUsers(userIds);
 			ArrayList<Long> profilePicIds = new ArrayList<Long>();
@@ -154,7 +153,7 @@ public class UserHandler implements UserDetailsService {
 						profilePicIds.add(user.getProfileImageFileId());
 				}
 				if (CollectionUtils.isNotEmpty(profilePicIds)) {
-					profilePicMap = fileHandler.getIdFileMap(profilePicIds);
+					//profilePicMap = fileHandler.getIdFileMap(profilePicIds);//shiva
 				}
 				/*for (User user : userList) {
 					if (profilePicMap.containsKey(user.getProfileImageFileId()))

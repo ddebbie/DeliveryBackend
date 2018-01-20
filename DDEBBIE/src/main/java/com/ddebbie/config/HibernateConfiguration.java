@@ -14,7 +14,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.ddebbie.dao.FileUploadDAO;
+import com.ddebbie.dao.impl.FileUploadDAOImpl;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
@@ -89,7 +92,10 @@ public class HibernateConfiguration {
         HibernateTransactionManager txManager = new HibernateTransactionManager(s);
         return txManager;
     }
-
+    
+    
+    
+ 
 
     
 }
