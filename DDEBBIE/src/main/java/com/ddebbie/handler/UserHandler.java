@@ -91,8 +91,8 @@ public class UserHandler implements UserDetailsService {
 		if(validateEmailUser(user))
 		{
 			user.setPassword(encodeUserPassword(user.getPassword()));
-			user.setCts(new Timestamp(new Date().getTime()));
-			user.setMts(new Timestamp(new Date().getTime()));
+			//user.setCts(new Timestamp(new Date().getTime()));
+			//user.setMts(new Timestamp(new Date().getTime()));
 			user.setActive(false);
 			user.setCreatorId(1248);
 			user.setModifierId(1248);
@@ -155,11 +155,7 @@ public class UserHandler implements UserDetailsService {
 				if (CollectionUtils.isNotEmpty(profilePicIds)) {
 					//profilePicMap = fileHandler.getIdFileMap(profilePicIds);//shiva
 				}
-				/*for (User user : userList) {
-					if (profilePicMap.containsKey(user.getProfileImageFileId()))
-						user.setProfilePicture(profilePicMap.get(user.getProfileImageFileId()));
-					userMap.put(user.getId(), user);
-				}*/
+				
 			}
 		}
 		return userMap;

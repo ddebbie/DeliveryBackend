@@ -127,11 +127,6 @@ public final class Utils {
         long userId = 0L;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();     
         if (null != authentication && !(authentication instanceof AnonymousAuthenticationToken)) {
-          //  UserAuthentication userDetails = (UserAuthentication) authentication.getCredentials();
-        	
-        	 //userId = ((User) authentication.getDetails()).getId();
-        	
-        	
         	 User user= userDAO.getUserByEmail((String) authentication.getDetails());
         	 if(user==null)
         	 {
@@ -141,7 +136,6 @@ public final class Utils {
         	 {
         		 userId = user.getId();
         	 }
-           // userId = user.getId();
         }
         return userId;
     }
@@ -176,41 +170,6 @@ public final class Utils {
     return DigestUtils.md5Hex(inputString);
     }
     
-   /* public Map<String, String> getPropertiesMap(String fileName) throws IOException
-    {
-        Map<String, String> map = new HashMap<String, String>();
-        if(runningEnvironment.equalsIgnoreCase("prod")){
-        map.put("hashSecretWord", hashSecretWord);
-        map.put("hashSid", hashSid);
-        map.put("purchaseUrl", purchaseUrl);
-        map.put("street_address", street_address);
-        map.put("street_address2", street_address2);
-        map.put("city", city);
-        map.put("state", state);
-        map.put("zip", zip);
-        map.put("country", country);
-        map.put("email", email);
-        map.put("phone", phone);
-        map.put("x_receipt_link_url", x_receipt_link_url);
-        
-        }
-        else{
-            map.put("hashSandBoxSecretWord", hashSandBoxSecretWord);
-            map.put("hashSandBoxSid", hashSandBoxSid);
-            map.put("sb_purchaseUrl", sb_purchaseUrl);
-            map.put("sb_street_address", sb_street_address);
-            map.put("sb_street_address2", sb_street_address2);
-            map.put("sb_city", sb_city);
-            map.put("sb_state", sb_state);
-            map.put("sb_zip", sb_zip);
-            map.put("sb_country", sb_country);
-            map.put("sb_email", sb_email);
-            map.put("sb_phone", sb_phone);
-            map.put("sb_x_receipt_link_url", sb_x_receipt_link_url);
-        }
-        return map;
-    }
-*/
     public int getCurrentYear(){
     	return Calendar.getInstance().get(Calendar.YEAR);
     }
@@ -236,10 +195,7 @@ public final class Utils {
     	return cal.get(Calendar.YEAR);
     }
     
-    /*public BraintreeGateway getBrainTreeGateway(){
-    	return new BraintreeGateway(braintreeAccessToken);
-    	
-    }*/
+   
    
     public String getCurrentMonth(){
     	String[] monthName = {"January", "February",
