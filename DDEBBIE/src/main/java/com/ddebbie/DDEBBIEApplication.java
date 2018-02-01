@@ -11,10 +11,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 @SpringBootApplication
-
-
-
-//War deployment code line
+//War deployment code line DDEBBIE_PROPERTIES_PATH=
 @PropertySource(value = {"file:${DDEBBIE_PROPERTIES_PATH}/application.properties"}, ignoreResourceNotFound=false)
 public class DDEBBIEApplication extends SpringBootServletInitializer {
     

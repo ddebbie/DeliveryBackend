@@ -27,7 +27,7 @@
 
 	<dependencies>
 
-
+	
 		<dependency>
 			<groupId>com.whalin</groupId>
 			<artifactId>Memcached-Java-Client</artifactId>
@@ -221,8 +221,13 @@
 			<version>2.4.1</version>
 			<scope>compile</scope>
 		</dependency>
-
-
+		
+		<dependency>
+		<groupId>com.goshippo</groupId>
+		<artifactId>shippo-java-client</artifactId>
+		<version>1.3.0</version>
+	</dependency>
+	
 
 	</dependencies>
 
