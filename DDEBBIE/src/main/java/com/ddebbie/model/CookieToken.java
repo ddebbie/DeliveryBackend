@@ -2,7 +2,7 @@ package com.ddebbie.model;
 
 public class CookieToken{
 	private static final long serialVersionUID = -8394717698349704984L;
-	String token = "";
+	private String token = "";
 	private long userId;
 	
 	

@@ -22,7 +22,7 @@ import com.shippo.model.Shipment;
 @Service("ShipmentHandler")
 public class ShipmentHandler {
   @Value("${shippo_apitoken}")
-  public static  String SHIPPO_APITOKEN;
+  public static  String SHIPPO_APITOKEN="shippo_test_bb7014c4721061b5c2abfb37afbb8bf269c2ae58";
 
 public Shipment createShipment(BusinessShippo businessShippo) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException {
 	
@@ -52,15 +52,15 @@ public Shipment createShipment(BusinessShippo businessShippo) throws Authenticat
 				toAddressMap.put(BusinessAddress.LABEL_EMAIL, toAddress.getEmail());
 		
 				Map<String, Object> fromAddressMap = new HashMap<String, Object>();
-				toAddressMap.put(BusinessAddress.LABEL_NAME, fromAddress.getName());
-				toAddressMap.put(BusinessAddress.LABEL_COMPANY, fromAddress.getCompany());
-				toAddressMap.put(BusinessAddress.LABEL_STREET1, fromAddress.getStreet1());
-				toAddressMap.put(BusinessAddress.LABEL_CITY, fromAddress.getCity());
-				toAddressMap.put(BusinessAddress.LABEL_STATE, fromAddress.getState());
-				toAddressMap.put(BusinessAddress.LABEL_ZIP, fromAddress.getZip());
-				toAddressMap.put(BusinessAddress.LABEL_COUNTRY, fromAddress.getCountry());
-				toAddressMap.put(BusinessAddress.LABEL_PHONE, fromAddress.getPhone());
-				toAddressMap.put(BusinessAddress.LABEL_EMAIL, fromAddress.getEmail());
+				fromAddressMap.put(BusinessAddress.LABEL_NAME, fromAddress.getName());
+				fromAddressMap.put(BusinessAddress.LABEL_COMPANY, fromAddress.getCompany());
+				fromAddressMap.put(BusinessAddress.LABEL_STREET1, fromAddress.getStreet1());
+				fromAddressMap.put(BusinessAddress.LABEL_CITY, fromAddress.getCity());
+				fromAddressMap.put(BusinessAddress.LABEL_STATE, fromAddress.getState());
+				fromAddressMap.put(BusinessAddress.LABEL_ZIP, fromAddress.getZip());
+				fromAddressMap.put(BusinessAddress.LABEL_COUNTRY, fromAddress.getCountry());
+				fromAddressMap.put(BusinessAddress.LABEL_PHONE, fromAddress.getPhone());
+				fromAddressMap.put(BusinessAddress.LABEL_EMAIL, fromAddress.getEmail());
 		
 				// parcel
 				Map<String, Object> parcelMap = new HashMap<String, Object>();

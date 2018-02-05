@@ -55,8 +55,8 @@ public class UserService extends BaseService {
 
 	// Should return cookie token
 	@Transactional
-	@RequestMapping(value = "login", method = RequestMethod.POST,consumes = {"application/x-www-form-urlencoded"})
-	public CookieToken userLogin( User user, HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public CookieToken userLogin(@RequestBody User user, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		CookieToken cookieToken = null;
 		System.out.println("In User Login :: " + user.getEmail() + " passowrd ::" + user.getPassword());

@@ -1,6 +1,8 @@
 package com.ddebbie.business;
 
-public class BusinessShippo {
+import com.ddebbie.model.CookieToken;
+
+public class BusinessShippo extends CookieToken {
 	private BusinessAddress toAddress;
 	private BusinessAddress fromAddress;
 	private BusinessParcel parcel;

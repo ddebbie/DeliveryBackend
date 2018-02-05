@@ -4,9 +4,9 @@ public class BusinessParcel {
 	public static final String LABEL_LENGTH ="length";
 	public static final String LABEL_WIDTH ="width";
 	public static final String LABEL_HEIGHT = "height";
-	public static final String LABEL_DISTANCEUNIT = "distanceUnit";
+	public static final String LABEL_DISTANCEUNIT = "distance_unit";
 	public static final String LABEL_WEIGHT = "weight";
-	public static final String LABEL_MASSUNIT = "massUnit";
+	public static final String LABEL_MASSUNIT = "mass_unit";
 
 	private String length;
 	private String width;

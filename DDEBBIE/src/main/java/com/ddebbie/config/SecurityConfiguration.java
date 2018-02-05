@@ -62,11 +62,12 @@ public class SecurityConfiguration {
 			// etc)
 			// is accessible from the login page without authentication
 			web.ignoring().antMatchers("/resources/**");
+			web.ignoring().antMatchers("/shipment/**");
 			// web.ignoring().antMatchers("/");
 			cacheManager.initService();
 		}
 
-		@Override
+		/*@Override
 		@Order(110)
 		protected void configure(HttpSecurity http) throws Exception {
 			System.out.println("In Configure ..");
@@ -85,7 +86,21 @@ public class SecurityConfiguration {
 		http.securityContext().securityContextRepository(memCachedSessionSecurityContextRespository);
 			http.addFilterAfter(new AuthenticationFilter(authenticationManager(), memCachedSessionSecurityContextRespository),
 					SecurityContextPersistenceFilter.class).csrf().disable();
+		}*/
+		
+		@Override
+		@Order(110)
+		protected void configure(HttpSecurity http) throws Exception {
+		//http.requestMatchers().antMatchers("/api/user/**", "/").and().csrf().disable();
+			
+		http.requestMatchers().antMatchers("/user/**","/").and().csrf().disable();
+		http.securityContext().securityContextRepository(memCachedSessionSecurityContextRespository);
+		http.addFilterAfter(new AuthenticationFilter(authenticationManager(), memCachedSessionSecurityContextRespository),
+					SecurityContextPersistenceFilter.class).csrf().disable();
 		}
+
+		
+		
 
 	}
 

@@ -16,7 +16,8 @@ import com.shippo.exception.AuthenticationException;
 import com.shippo.exception.InvalidRequestException;
 import com.shippo.model.Shipment;
 
-@RestController("shipment")
+@RestController
+@RequestMapping("shipment")
 public class ShipmentService extends BaseService {
 	@Autowired
 	ShipmentHandler shipmentHandler;
