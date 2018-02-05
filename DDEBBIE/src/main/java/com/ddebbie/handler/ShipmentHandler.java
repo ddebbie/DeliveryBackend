@@ -21,7 +21,7 @@ import com.shippo.model.Shipment;
 
 @Service("ShipmentHandler")
 public class ShipmentHandler {
-  @Value("${shippo_apitoken}")
+  //@Value("${shippo_apitoken}")
   public static  String SHIPPO_APITOKEN="shippo_test_bb7014c4721061b5c2abfb37afbb8bf269c2ae58";
 
 public Shipment createShipment(BusinessShippo businessShippo) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException {
