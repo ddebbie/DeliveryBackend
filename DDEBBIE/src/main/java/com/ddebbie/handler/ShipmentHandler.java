@@ -16,6 +16,7 @@ import com.shippo.exception.APIConnectionException;
 import com.shippo.exception.APIException;
 import com.shippo.exception.AuthenticationException;
 import com.shippo.exception.InvalidRequestException;
+import com.shippo.model.RateCollection;
 import com.shippo.model.Shipment;
 
 
@@ -24,7 +25,7 @@ public class ShipmentHandler {
   //@Value("${shippo_apitoken}")
   public static  String SHIPPO_APITOKEN="shippo_test_bb7014c4721061b5c2abfb37afbb8bf269c2ae58";
 
-public Shipment createShipment(BusinessShippo businessShippo) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException {
+public RateCollection createShipment(BusinessShippo businessShippo) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException, InterruptedException {
 	
 	if(businessShippo!=null){
 				// replace with your Shippo Token
@@ -78,7 +79,17 @@ public Shipment createShipment(BusinessShippo businessShippo) throws Authenticat
 				shipmentMap.put("address_from", fromAddressMap);
 				shipmentMap.put("parcels", parcels);
 				shipmentMap.put("async", false);
-		return Shipment.create(shipmentMap);
+				Shipment shipment=Shipment.create(shipmentMap);
+				Map<String, Object> objectMap = new HashMap<String, Object>();
+		        objectMap.put("id", shipment.getObjectId());
+		        objectMap.put("currency_code", "USD");
+		        
+		        Shipment.getShippingRates(objectMap);
+	            // Allow five seconds to pass for server rates generation
+	            Thread.sleep(5000);
+	            
+				
+		return Shipment.getShippingRates(objectMap);
 	}
 	return null;
 	

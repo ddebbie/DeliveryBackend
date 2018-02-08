@@ -14,6 +14,7 @@ import com.shippo.exception.APIConnectionException;
 import com.shippo.exception.APIException;
 import com.shippo.exception.AuthenticationException;
 import com.shippo.exception.InvalidRequestException;
+import com.shippo.model.RateCollection;
 import com.shippo.model.Shipment;
 
 @RestController
@@ -24,7 +25,7 @@ public class ShipmentService extends BaseService {
 
 	@Transactional
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public Shipment createShipment(@RequestBody BusinessShippo businessShippo) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException {
+	public RateCollection createShipment(@RequestBody BusinessShippo businessShippo) throws AuthenticationException, InvalidRequestException, APIConnectionException, APIException, InterruptedException {
 		return shipmentHandler.createShipment(businessShippo);
 	}
 
